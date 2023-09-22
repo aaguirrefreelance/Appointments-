@@ -46,6 +46,7 @@ app.get('/calendar', (req, res) =>{
 app.get("/signup", (req, res,) => {
     res.render("signup");
 })
+
 //listen to the server
 app.listen(port, ()=>{
     console.log(`The server is at http://${hostname}:${port}.`);
