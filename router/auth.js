@@ -5,14 +5,15 @@ const {check, validationResult} = require('express-validator');
 //create a server
 const router = express.Router();
 
-const credential = {
-    email: 'kodego@test.com',
-    password: '12345678'
-};
+// const credential = {
+//     email: 'kodego@test.com',
+//     password: '12345678'
+// };
 
 //route to the login page
 router.get('/', (req, res)=>{
     res.render('login',{title:'Login Page'});
+    
 });
 
 //route to authenticate a user
@@ -29,19 +30,44 @@ router.post('/login', [
 ],(req, res)=>{
 
     const errors = validationResult(req);
-
+    const db = req.app.get("database")
+    
     if(!errors.isEmpty()){
         console.log(errors);
         // res.send({ errors: errors.array() });
         res.render('login',{title:'Login Page', errors: 'Please check your input' });
     }else{
-        if(req.body.email == credential.email && req.body.password == credential.password){
-            //create a session
-            req.session.user = req.body.email;
-            res.redirect('/dashboard');
+        if(db.length > 0){
+            let isInvalid = ''
+            db.forEach(element => {
+                console.log(element);
+                console.log(req.body);
+                if(element.email == req.body.email && element.password == req.body.password){
+                    req.session.user = req.body.email;
+                    res.redirect('/dashboard');
+                
+                }else{
+                    console.log('invalid') 
+                    isInvalid = 'Your credential does not exist'
+                   
+                }
+            });
+
+            if(!req.session.user){
+                res.render('login',{title:'Login Page', isInvalid: isInvalid });
+            }
+            
+
         }else{
-            res.render('login',{title:'Login Page', isInvalid: 'Your credential does not exist' });
+            res.render('login',{title:'Login Page', isInvalid: 'Your credential does not exist! Create an Account' });
         }
+        // if(req.body.email == credential.email && req.body.password == credential.password){
+        //     //create a session
+        //     req.session.user = req.body.email;
+        //     res.redirect('/dashboard');
+        // }else{
+        //     res.render('login',{title:'Login Page', isInvalid: 'Your credential does not exist' });
+        // }
     }
 
     // if(!req.body.email || !req.body.password){

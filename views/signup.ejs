@@ -1,29 +1,51 @@
 <%-include('header') -%>
 
-<form action="/signup" method="post">
-<div class="d-flex flex-column gap-3">
-    <h3>Create An Account</h3>
-    <div>
-        <input type="text" class="p-1" placeholder="First Name">
-        <input type="text" class="p-1" placeholder="Last Name">
+
+
+    <div class="main-container">
+        <div class="container left-container d-flex">
+
+            <div class="container-fluid mt-auto mb-auto">
+                <form action="/signup" method="post">
+                    <div class="d-flex flex-column gap-3 justify-content-center">
+
+                        <h2 class="ms-auto me-auto">Create An Account</h2>
+                        <div class="d-flex gap-2">
+                            <input type="text" name="firstName" class="p-2 flex-fill form-control" placeholder="First Name" required>
+                            <input type="text" name="lastName" class="p-2 flex-fill form-control" placeholder="Last Name" required>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <input type="email" name="email" class="p-2 flex-fill form-control" placeholder="Email" required>
+                            <input type="text" name="contactNumber" class="p-2 flex-fill form-control" placeholder="Contact Number" required>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <input type="password" name="password" class="p-2 flex-fill form-control" placeholder="Create Password" required>
+                            <input type="password" name="passwordConfirm" class="p-2 flex-fill form-control" placeholder="Confirm Password" required>
+                        </div>
+
+                        <input type="submit" class="btn btn-outline-primary ms-auto me-auto w-25" value="Create Account">
+
+                        <p class="ms-auto me-auto">Already have an acount? <a href="/">Sign in here!</a></p>
+                        
+                        <% if(locals.err) { %> 
+                            <div class="alert alert-danger" role="alert">
+                                <%= locals.err %>
+                            </div>
+
+                        <% } %>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+
+        <div class="container right-container">
+
+        </div>
     </div>
-    
-    <div>
-        <input type="text" class="p-1" placeholder="Email">
-        <input type="text" class="p-1" placeholder="Contact Number">
-    </div>
-
-    <div>
-        <input type="password" class="p-1" placeholder="Create Password">
-        <input type="password" class="p-1" placeholder="Confirm Password">
-    </div>
-    
-    <input type="submit" class="btn btn-outline-primary" value="Create Account">
-
-    <p>Already have an acount? <a href="/">Sign in here!</a></p>
-</div>
-
-</form>
 
 
-<%-include('footer') -%>
+
+    <%-include('footer') -%>

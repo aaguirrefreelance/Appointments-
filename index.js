@@ -47,7 +47,29 @@ app.get("/signup", (req, res,) => {
     res.render("signup");
 })
 
+app.post('/signup', (req, res) => {
+    const db = req.app.get("database")
+    const password = req.body.password
+    const conpassword = req.body.passwordConfirm
+    if(password == conpassword) {
+        const user = {
+            firstName : req.body.firstName,
+            lastName : req.body.lastName,
+            email : req.body.email,
+            contactNumber : req.body.contactNumber,
+            password : req.body.password,
+
+        }
+        db.push(user)
+        res.redirect('/')
+    }else{
+        res.render('signup', {err: 'Password does not match!'})
+    }
+    
+})
+
 //listen to the server
 app.listen(port, ()=>{
+    app.set("database", []);
     console.log(`The server is at http://${hostname}:${port}.`);
 });
